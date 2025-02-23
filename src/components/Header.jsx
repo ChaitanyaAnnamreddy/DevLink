@@ -1,10 +1,15 @@
-import reactLogo from '../assets/react.svg'
+import reactLogo from '../assets/developer.png'
+import { useState } from 'react'
 
 const Header = () => {
+  const [open, setOpen] = useState(false)
   return (
-    <div className="navbar bg-base-100" data-theme="synthwave">
+    <div className="navbar bg-base-100 fixed z-50" data-theme="synthwave">
       <div className="flex-none">
-        <button className="btn btn-square btn-ghost">
+        <button
+          className="btn btn-square btn-ghost"
+          onClick={() => setOpen(!open)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -21,7 +26,7 @@ const Header = () => {
         </button>
       </div>
       <div className="flex-1">
-        <a href="/" target="_blank">
+        <a href="/">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
@@ -42,7 +47,7 @@ const Header = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                src="https://yt4.ggpht.com/ytc/AIdro_lr2YRGxPaLwi_AslnVpf2OHnD0SemofC3TRkQfgvY=s64-c-k-c0x00ffffff-no-rj"
               />
             </div>
           </div>
@@ -51,16 +56,16 @@ const Header = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a className="justify-between">
+              <a className="justify-between" href="/profile">
                 Profile
                 <span className="badge">New</span>
               </a>
             </li>
             <li>
-              <a>Settings</a>
+              <a href="/settings">Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <a href="/login">Logout</a>
             </li>
           </ul>
         </div>
