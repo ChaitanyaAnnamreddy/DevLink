@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <div>
-      <footer
+      {/* <footer
         className="footer bg-base-200 text-base-content p-10 flex justify-between sm:flex"
         data-theme="synthwave"
       >
@@ -25,9 +25,9 @@ const Footer = () => {
           <a className="link link-hover">Privacy policy</a>
           <a className="link link-hover">Cookie policy</a>
         </nav>
-      </footer>
+      </footer> */}
       <footer
-        className="footer bg-base-200 text-base-content border-base-300 border-t px-10 py-4 "
+        className="footer bg-base-200 text-base-content border-base-300 border-t px-10 py-4 fixed bottom-0 w-full"
         data-theme="synthwave"
       >
         <aside className="grid-flow-col items-center">
@@ -49,7 +49,7 @@ const Footer = () => {
           </p>
         </aside>
         <nav className="md:place-self-center md:justify-self-end">
-          <div className="grid grid-flow-col gap-4">
+          <div className="grid grid-flow-col gap-3">
             <a href="https://github.com/ChaitanyaAnnamreddy">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

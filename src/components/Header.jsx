@@ -1,76 +1,150 @@
 import reactLogo from '../assets/developer.png'
 import { useState } from 'react'
+import { useNavigate } from 'react-router'
+// import { signOut } from 'firebase/auth'
+// import { auth } from '../utils/firebase'
+import { useDispatch } from 'react-redux'
+import { removeUser } from '../store/userSlice'
+import { useSelector } from 'react-redux'
+import axios from 'axios'
+import { BASE_URL } from '../utils/constants'
+import imagePlaceholder from '../assets/person.svg'
 
 const Header = () => {
-  const [open, setOpen] = useState(false)
+  const [notification, setNotification] = useState(null)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const selector = useSelector((state) => state.user)
+  const connections = useSelector((state) => state.connection)
+  const requests = useSelector((state) => state.requests)
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        `${BASE_URL}/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      //   await signOut(auth)
+      dispatch(removeUser())
+
+      // ✅ Show Toast Notification before redirecting
+      setNotification({
+        type: 'success',
+        message: 'Logged out successfully! 🎉',
+      })
+
+      // ✅ Hide toast after 1 second
+      setTimeout(() => {
+        setNotification(null)
+      }, 1000)
+
+      navigate('/login')
+    } catch (error) {
+      navigate('/error')
+
+      setNotification({
+        type: 'error',
+        message: error.message,
+      })
+    }
+  }
+
   return (
-    <div className="navbar bg-base-100 fixed z-50" data-theme="synthwave">
-      <div className="flex-none">
-        <button
-          className="btn btn-square btn-ghost"
-          onClick={() => setOpen(!open)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            className="inline-block h-5 w-5 stroke-current"
+    <div className="navbar bg-base-100 fixed z-50 top-0" data-theme="synthwave">
+      {/* ✅ Fixed Toast Notification */}
+      {notification && (
+        <div className="toast toast-top toast-center fixed z-50">
+          <div
+            className={`alert ${
+              notification.type === 'success' ? 'alert-success' : 'alert-error'
+            }`}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
-        </button>
-      </div>
+            <span>{notification.message}</span>
+          </div>
+        </div>
+      )}
+
       <div className="flex-1">
-        <a href="/">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <div className="flex-1">
+          <button onClick={() => navigate('/')} className="btn btn-ghost">
+            <img src={reactLogo} className="logo react" alt="React logo" />
+            <span className="text-xl font-bold">DevLink</span>
+          </button>
+        </div>
       </div>
+
       <div className="flex-none gap-2">
-        <div className="form-control">
+        {/* <div className="form-control">
           <input
             type="text"
             placeholder="Search"
             className="input input-bordered w-24 md:w-auto"
           />
-        </div>
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://yt4.ggpht.com/ytc/AIdro_lr2YRGxPaLwi_AslnVpf2OHnD0SemofC3TRkQfgvY=s64-c-k-c0x00ffffff-no-rj"
-              />
+        </div> */}
+
+        {selector?.user && (
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img
+                  alt={selector.user?.firstName + ' ' + selector.user?.lastName}
+                  src={selector.user?.photoUrl || imagePlaceholder}
+                />
+              </div>
             </div>
+
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <button
+                  className="justify-between"
+                  onClick={() => navigate('/profile')}
+                >
+                  Profile
+                  <span className="badge">New</span>
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/connections')}>
+                  Connections
+                  {connections?.connections?.data?.length > 0 && (
+                    <span className="badge bg-red-200 text-black">
+                      {connections?.connections?.data?.length}
+                    </span>
+                  )}
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/requests')}>
+                  Requests
+                  {requests?.requests?.length > 0 && (
+                    <span className="badge bg-red-200 text-black">
+                      {requests?.requests?.length}
+                    </span>
+                  )}
+                </button>
+              </li>
+              <li>
+                <button onClick={() => navigate('/settings')}>Settings</button>
+              </li>
+              <li>
+                <button onClick={handleLogout}>Logout</button>
+              </li>
+            </ul>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-          >
-            <li>
-              <a className="justify-between" href="/profile">
-                Profile
-                <span className="badge">New</span>
-              </a>
-            </li>
-            <li>
-              <a href="/settings">Settings</a>
-            </li>
-            <li>
-              <a href="/login">Logout</a>
-            </li>
-          </ul>
-        </div>
+        )}
       </div>
     </div>
   )
 }
+
 export default Header
