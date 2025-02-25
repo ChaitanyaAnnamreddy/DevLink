@@ -1,8 +1,6 @@
 import reactLogo from '../assets/developer.png'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
-// import { signOut } from 'firebase/auth'
-// import { auth } from '../utils/firebase'
 import { useDispatch } from 'react-redux'
 import { removeUser } from '../store/userSlice'
 import { useSelector } from 'react-redux'
@@ -27,16 +25,13 @@ const Header = () => {
           withCredentials: true,
         }
       )
-      //   await signOut(auth)
       dispatch(removeUser())
 
-      // ✅ Show Toast Notification before redirecting
       setNotification({
         type: 'success',
         message: 'Logged out successfully! 🎉',
       })
 
-      // ✅ Hide toast after 1 second
       setTimeout(() => {
         setNotification(null)
       }, 1000)
@@ -77,14 +72,6 @@ const Header = () => {
       </div>
 
       <div className="flex-none gap-2">
-        {/* <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-24 md:w-auto"
-          />
-        </div> */}
-
         {selector?.user && (
           <div className="dropdown dropdown-end">
             <div

@@ -32,7 +32,7 @@ const Hero = () => {
     <>
       <div
         className="h-screen flex flex-col md:grid grid-cols-2 gap-8 items-center overflow-y-auto px-4 md:px-24 py-24 scrollbar-smooth"
-        data-theme="lofi"
+        data-theme="retro"
       >
         {selector?.feed?.data?.length > 0 &&
           selector?.feed?.data?.map((item) => (

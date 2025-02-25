@@ -32,7 +32,7 @@ const Connections = () => {
   return (
     <div
       className="h-screen py-24 px-8 overflow-x-hidden scrollbar-smooth"
-      data-theme="lofi"
+      data-theme="retro"
     >
       <nav className="mb-1" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -87,7 +87,7 @@ const Connections = () => {
           </li>
         </ol>
       </nav>
-      <hr className="mt-4 border-gray-400 dark:border-gray-100" />
+      <hr className="mt-4 border-gray-400 dark:border-gray-400" />
       <div className="mx-auto max-w-screen-lg py-12 sm:py-8  px-4 sm:px-3">
         <div className="flex items-center justify-between pb-6">
           <h2 className="font-semibold text-gray-700">My Connections</h2>
@@ -96,7 +96,10 @@ const Connections = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-blue-600 text-left text-xs font-semibold uppercase tracking-widest text-white">
+                <tr
+                  className="text-left text-xs font-semibold uppercase tracking-widest text-white"
+                  data-theme="aqua"
+                >
                   <th className="px-5 py-5">Profile</th>
                   <th className="px-5 py-5">Full Name</th>
                   <th className="px-5 py-5">Age</th>
@@ -110,7 +113,8 @@ const Connections = () => {
                   selector.connections.data.map((item) => (
                     <tr
                       key={item?._id}
-                      className="border-b border-gray-200 bg-white hover:bg-gray-100 cursor-pointer"
+                      className="border-b border-gray-200  hover:bg-gray-100 cursor-pointer"
+                      data-theme="garden"
                     >
                       <td className="px-5 py-5 text-sm">
                         <div className="flex items-center">

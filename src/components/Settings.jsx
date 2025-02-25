@@ -9,7 +9,7 @@ const Settings = () => {
   const selector = useSelector((state) => state.user)
 
   return (
-    <div className="min-h-screen" data-theme="lofi">
+    <div className="min-h-screen" data-theme="retro">
       <div className="mx-4 max-w-screen-xl sm:mx-10 md:mx-20 lg:mx-auto">
         <div className="py-4 mt-16">
           <nav className="mb-1 flex" aria-label="Breadcrumb">

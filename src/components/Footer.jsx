@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <div>
-      {/* <footer
+      <footer
         className="footer bg-base-200 text-base-content p-10 flex justify-between sm:flex"
         data-theme="synthwave"
       >
@@ -25,9 +25,9 @@ const Footer = () => {
           <a className="link link-hover">Privacy policy</a>
           <a className="link link-hover">Cookie policy</a>
         </nav>
-      </footer> */}
+      </footer>
       <footer
-        className="footer bg-base-200 text-base-content border-base-300 border-t px-10 py-4 fixed bottom-0 w-full"
+        className="footer bg-base-200 text-base-content border-base-300 border-t px-10 py-4"
         data-theme="synthwave"
       >
         <aside className="grid-flow-col items-center">

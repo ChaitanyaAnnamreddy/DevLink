@@ -11,19 +11,18 @@ const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true)
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
-  const [notification, setNotification] = useState(null) // ✅ State for toast
+  const [notification, setNotification] = useState(null)
   const [signInError, setSignInError] = useState('')
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  // ✅ Validate email format
+  // ✅ Validation
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return emailRegex.test(email)
   }
 
-  // ✅ Validate password length
   const validatePassword = (password) => {
     return password.length >= 6
   }
@@ -70,7 +69,6 @@ const Login = () => {
       className="flex h-screen flex-1 flex-col justify-center px-6 py-24 lg:px-8"
       data-theme="lofi"
     >
-      {/* ✅ DaisyUI Toast Notifications */}
       {notification && (
         <div className="toast toast-top toast-center fixed z-50">
           <div

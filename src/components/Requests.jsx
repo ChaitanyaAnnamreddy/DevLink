@@ -71,7 +71,7 @@ const Requests = () => {
     <>
       <div
         className="h-screen py-24 px-8 overflow-y-auto scrollbar-smooth"
-        data-theme="lofi"
+        data-theme="retro"
       >
         {notification && (
           <div className="toast toast-top toast-center fixed z-50">
@@ -139,8 +139,8 @@ const Requests = () => {
             </li>
           </ol>
         </nav>
-        <hr className="mt-4 border-gray-400 dark:border-gray-100" />
-        <div className="py-4 flex flex-col gap-8" data-theme="lofi">
+        <hr className="mt-4 border-gray-400 dark:border-gray-400" />
+        <div className="py-12 flex flex-col gap-8" data-theme="retro">
           {requests?.length > 0 &&
             requests?.map((item) => (
               <div

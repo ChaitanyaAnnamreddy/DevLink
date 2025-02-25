@@ -98,14 +98,13 @@ const Profile = () => {
     setSkillsError('')
     setAboutError('')
 
-    // ✅ Validate Email Format
+    // ✅ Validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(emailId)) {
-      setEmailError('Please enter a valid email address') // Show error under input
+      setEmailError('Please enter a valid email address')
       return // Stop function execution
     }
 
-    // Validation for first name and last name
     if (!firstName) {
       setFirstNameError('first name cannot be empty')
       return
@@ -198,7 +197,7 @@ const Profile = () => {
   return (
     <section
       className="h-full py-8 antialiased md:py-24 md:flex px-10 gap-10"
-      data-theme="lofi"
+      data-theme="retro"
     >
       {notification && (
         <div className="toast toast-top toast-center fixed z-50">
@@ -265,7 +264,7 @@ const Profile = () => {
             </li>
           </ol>
         </nav>
-        <hr className="mt-4 mb-4 border-gray-200 dark:border-gray-300" />
+        <hr className="mt-4 mb-4 border-gray-200 dark:border-gray-400" />
         <div className=" md:flex justify-between">
           <div className="mx-auto max-w-screen-lg px-4 2xl:px-0 md:w-3/5">
             <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-black sm:text-2xl md:mb-6">
@@ -442,7 +441,7 @@ const Profile = () => {
             key={selector.user?._id || 'default-key'} // Fallback key
           >
             <h4 className="mb-4 text-xl font-semibold text-gray-900 dark:text-black sm:text-2xl md:mb-6">
-             This is how your profile looks like for other users
+              This is how your profile looks like for other users
             </h4>
             <div
               className="card md:card-side bg-base-100 shadow-xl w-full flex justify-center mx-24 md:mx-auto h-3/4 md:h-1/2"
