@@ -7,10 +7,15 @@ const feedSlice = createSlice({
   },
   reducers: {
     addFeed: (state, action) => {
-      state.feed = action.payload
+      state.feed = action.payload || []
     },
-    removeFeed: (state) => {
-      state.feed = []
+    removeFeed: (state, action) => {
+      if (Array.isArray(state.feed.data)) {
+        state.feed = {
+          ...state.feed,
+          data: state.feed.data.filter((item) => item._id !== action.payload),
+        }
+      }
     },
   },
 })

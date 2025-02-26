@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { BASE_URL } from '../utils/constants'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,12 +10,19 @@ const Connections = () => {
   const navigate = useNavigate()
   const selector = useSelector((state) => state.connection)
 
-  const connections = async () => {
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+
+  const connections = async (pageNumber) => {
     try {
-      const res = await axios.get(`${BASE_URL}/user/connections`, {
-        withCredentials: true,
-      })
+      const res = await axios.get(
+        `${BASE_URL}/user/connections?page=${pageNumber}&limit=5`,
+        {
+          withCredentials: true,
+        }
+      )
       dispatch(addConnections(res.data))
+      setTotalPages(res.data.totalPages)
     } catch (error) {
       if (error.response?.status === 401) {
         navigate('/login')
@@ -26,8 +33,8 @@ const Connections = () => {
   }
 
   useEffect(() => {
-    connections()
-  }, [])
+    connections(page)
+  }, [page])
 
   return (
     <div
@@ -39,7 +46,7 @@ const Connections = () => {
           <li className="inline-flex items-center">
             <a
               href="/"
-              className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue"
+              className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600"
             >
               <svg
                 className="me-2 h-4 w-4"
@@ -64,7 +71,7 @@ const Connections = () => {
           <li aria-current="page">
             <div className="flex items-center">
               <svg
-                className="mx-1 h-4 w-4 text-gray-400 rtl:rotate-180"
+                className="mx-1 h-4 w-4 text-gray-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -80,15 +87,15 @@ const Connections = () => {
                   d="m9 5 7 7-7 7"
                 />
               </svg>
-              <span className="ms-1 text-sm font-medium text-gray-500 dark:text-gray-400 md:ms-2">
+              <span className="ms-1 text-sm font-medium text-gray-500">
                 Connections
               </span>
             </div>
           </li>
         </ol>
       </nav>
-      <hr className="mt-4 border-gray-400 dark:border-gray-400" />
-      <div className="mx-auto max-w-screen-lg py-12 sm:py-8  px-4 sm:px-3">
+      <hr className="mt-4 border-gray-400" />
+      <div className="mx-auto max-w-screen-lg py-12 sm:py-8 px-4 sm:px-3">
         <div className="flex items-center justify-between pb-6">
           <h2 className="font-semibold text-gray-700">My Connections</h2>
         </div>
@@ -113,58 +120,42 @@ const Connections = () => {
                   selector.connections.data.map((item) => (
                     <tr
                       key={item?._id}
-                      className="border-b border-gray-200  hover:bg-gray-100 cursor-pointer"
+                      className="border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
                       data-theme="garden"
                     >
                       <td className="px-5 py-5 text-sm">
                         <div className="flex items-center">
-                          <div className="h-10 w-10 flex-shrink-0">
-                            <img
-                              className="h-full w-full rounded-full object-cover"
-                              src={
-                                item?.photoUrl || '/images/default-profile.png'
-                              }
-                              alt="User"
-                            />
-                          </div>
+                          <img
+                            className="h-10 w-10 rounded-full object-cover"
+                            src={
+                              item?.photoUrl || '/images/default-profile.png'
+                            }
+                            alt="User"
+                          />
                         </div>
                       </td>
                       <td className="px-5 py-5 text-sm">
-                        <div className="flex items-center">
-                          <div className="ml-3">
-                            <p className="whitespace-no-wrap">
-                              {item?.firstName} {item?.lastName}
-                            </p>
-                          </div>
-                        </div>
+                        {item?.firstName} {item?.lastName}
                       </td>
                       <td className="px-5 py-5 text-sm">
-                        <p className="whitespace-no-wrap">
-                          {item?.age ? `${item?.age}` : 'NA'}
-                        </p>
+                        {item?.age ? `${item?.age}` : 'NA'}
                       </td>
                       <td className="px-5 py-5 text-sm">
-                        <p className="whitespace-no-wrap">
-                          {item?.gender ? `${item?.gender}` : 'NA'}
-                        </p>
+                        {item?.gender ? `${item?.gender}` : 'NA'}
                       </td>
                       <td className="px-5 py-5 text-sm">
-                        <p className="whitespace-no-wrap">
-                          {item?.about || 'No details available'}
-                        </p>
+                        {item?.about || 'No details available'}
                       </td>
                       <td className="px-5 py-5 text-sm">
-                        <p className="whitespace-no-wrap">
-                          {item?.skills?.length > 0
-                            ? item.skills.join(', ')
-                            : 'No skills added'}
-                        </p>
+                        {item?.skills?.length > 0
+                          ? item.skills.join(', ')
+                          : 'No skills added'}
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="px-5 py-5 text-center text-sm">
+                    <td colSpan="6" className="px-5 py-5 text-center text-sm">
                       No connections found.
                     </td>
                   </tr>
@@ -173,6 +164,23 @@ const Connections = () => {
             </table>
           </div>
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="join mt-4 flex justify-center">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                className={`join-item rounded-lg btn ${
+                  page === index + 1 ? 'btn-active' : ''
+                }`}
+                onClick={() => setPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

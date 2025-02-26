@@ -6,13 +6,19 @@ import { addUser } from '../store/userSlice'
 import { BASE_URL } from '../utils/constants'
 
 const Login = () => {
-  const [emailId, setEmailId] = useState('akshay@gmail.com')
-  const [password, setPassword] = useState('Akshay@123')
+  const [emailId, setEmailId] = useState('')
+  const [password, setPassword] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+
   const [isSignIn, setIsSignIn] = useState(true)
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [notification, setNotification] = useState(null)
   const [signInError, setSignInError] = useState('')
+  const [signUpError, setSignUpError] = useState('')
+  const [firstNameError, setFirstNameError] = useState('')
+  const [lastNameError, setLastNameError] = useState('')
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -27,11 +33,20 @@ const Login = () => {
     return password.length >= 6
   }
 
+  const validateFirstName = (firstName) => {
+    return firstName.length >= 3
+  }
+
+  const validateLastName = (lastName) => {
+    return lastName.length >= 3
+  }
+
   const handleLogin = async () => {
     setEmailError('')
     setPasswordError('')
+    setFirstNameError('')
+    setLastNameError('')
 
-    // **🚨 Check validation before API call**
     if (!emailId || !validateEmail(emailId)) {
       setEmailError('Please enter a valid email address')
       return
@@ -59,8 +74,55 @@ const Login = () => {
         navigate('/')
       }, 500)
     } catch (error) {
-      console.error('Login error:', error.response?.data || error.message)
-      setSignInError('Email or password is incorrect! ❌')
+      setSignInError(`❌ ${error.response?.data || error.message}`)
+    }
+  }
+
+  const handleSignUp = async () => {
+    setEmailError('')
+    setPasswordError('')
+    setFirstNameError('')
+    setLastNameError('')
+
+    // **🚨 Check validation before API call**
+    if (!emailId || !validateEmail(emailId)) {
+      setEmailError('Please enter a valid email address')
+      return
+    }
+    if (!password || !validatePassword(password)) {
+      setPasswordError('Password must be at least 6 characters long')
+      return
+    }
+    if (!firstName || !validateFirstName(firstName)) {
+      setFirstNameError('First name must be at least 3 characters long')
+      return
+    }
+    if (!lastName || !validateLastName(lastName)) {
+      setLastNameError('Last name must be at least 3 characters long')
+      return
+    }
+
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/signup`,
+        { emailId, password, firstName, lastName },
+        { withCredentials: true }
+      )
+
+      dispatch(addUser(res.data.data))
+
+      setNotification({
+        type: 'success',
+        message:
+          'Welcome aboard! 🚀 Your journey starts here. Complete your profile and let the dev world discover you! 🌎💡',
+      })
+
+      setTimeout(() => {
+        navigate('/profile')
+        setNotification(null)
+      }, 2000)
+    } catch (error) {
+      setSignInError(error.response?.data || error.message)
     }
   }
 
@@ -89,6 +151,42 @@ const Login = () => {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          {!isSignIn && (
+            <div className="flex">
+              <div className="w-1/2 mr-2">
+                <label className="block text-sm font-medium text-gray-900">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                {firstNameError && (
+                  <p className="text-red-500 text-sm mt-1">{firstNameError}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-900">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  className="block w-full rounded-md border border-gray-300 px-3 py-1.5 text-base text-gray-900"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+                {lastNameError && (
+                  <p className="text-red-500 text-sm mt-1">{lastNameError}</p>
+                )}
+              </div>
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-gray-900">
               Email address
@@ -104,7 +202,6 @@ const Login = () => {
               <p className="text-red-500 text-sm mt-1">{emailError}</p>
             )}
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-900">
               Password
@@ -121,12 +218,12 @@ const Login = () => {
             )}
           </div>
           {signInError && <p className="text-red-500 text-sm">{signInError}</p>}
-
+          {signUpError && <p className="text-red-500 text-sm">{signUpError}</p>}
           <div>
             <button
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-white shadow-xs hover:bg-indigo-500"
-              onClick={handleLogin}
+              onClick={isSignIn ? handleLogin : handleSignUp}
             >
               {isSignIn ? 'Sign in' : 'Sign up'}
             </button>

@@ -1,7 +1,11 @@
-import { useNavigate } from 'react-router'
+import { useNavigate, useLocation } from 'react-router'
 
 const Error = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+
+  // Get the error message from state, or fallback to a default message
+  const message = location.state?.message || 'Something went wrong! 🚨'
 
   return (
     <section
@@ -14,7 +18,7 @@ const Error = () => {
             404
           </h1>
           <p className="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">
-            Something&apos;s missing.
+            {message}
           </p>
           <p className="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
             Sorry, we can&apos;t find that page. You&apos;ll find lots to
@@ -31,4 +35,5 @@ const Error = () => {
     </section>
   )
 }
+
 export default Error

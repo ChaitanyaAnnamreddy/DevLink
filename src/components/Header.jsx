@@ -13,8 +13,6 @@ const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const selector = useSelector((state) => state.user)
-  const connections = useSelector((state) => state.connection)
-  const requests = useSelector((state) => state.requests)
 
   const handleLogout = async () => {
     try {
@@ -103,21 +101,21 @@ const Header = () => {
               <li>
                 <button onClick={() => navigate('/connections')}>
                   Connections
-                  {connections?.connections?.data?.length > 0 && (
+                  {/* {connections?.connections?.data?.length > 0 && (
                     <span className="badge bg-red-200 text-black">
                       {connections?.connections?.data?.length}
                     </span>
-                  )}
+                  )} */}
                 </button>
               </li>
               <li>
                 <button onClick={() => navigate('/requests')}>
                   Requests
-                  {requests?.requests?.length > 0 && (
+                  {/* {requests?.requests?.length > 0 && (
                     <span className="badge bg-red-200 text-black">
                       {requests?.requests?.length}
                     </span>
-                  )}
+                  )} */}
                 </button>
               </li>
               <li>

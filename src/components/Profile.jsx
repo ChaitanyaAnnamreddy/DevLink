@@ -105,13 +105,14 @@ const Profile = () => {
       return // Stop function execution
     }
 
-    if (!firstName) {
-      setFirstNameError('first name cannot be empty')
+    const nameRegex = /^[a-zA-Z]{4,}$/
+    if (!firstName.match(nameRegex)) {
+      setFirstNameError('first name should be atleast 4 characters')
       return
     }
 
-    if (!lastName) {
-      setLastNameError('last name cannot be empty')
+    if (!lastName.match(nameRegex)) {
+      setLastNameError('last name should be atleast 4 characters')
       return
     }
 
@@ -174,6 +175,7 @@ const Profile = () => {
 
       setTimeout(() => {
         setNotification(null)
+        navigate('/')
       }, 3000)
     } catch (error) {
       console.error(

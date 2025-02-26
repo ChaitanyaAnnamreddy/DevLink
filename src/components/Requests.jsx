@@ -36,9 +36,7 @@ const Requests = () => {
       })
       setTimeout(() => {
         setNotification(null)
-      }, 2000)
-
-      console.log(`✅ ${status} request processed, updated requests:`, requests)
+      }, 5000)
     } catch (error) {
       if (error.response?.status === 401) {
         navigate('/login')
@@ -140,7 +138,7 @@ const Requests = () => {
           </ol>
         </nav>
         <hr className="mt-4 border-gray-400 dark:border-gray-400" />
-        <div className="py-12 flex flex-col gap-8" data-theme="retro">
+        <div className="py-12 flex flex-wrap gap-8" data-theme="retro">
           {requests?.length > 0 &&
             requests?.map((item) => (
               <div

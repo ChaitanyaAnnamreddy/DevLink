@@ -10,8 +10,8 @@ const Settings = () => {
 
   return (
     <div className="min-h-screen" data-theme="retro">
-      <div className="mx-4 max-w-screen-xl sm:mx-10 md:mx-20 lg:mx-auto">
-        <div className="py-4 mt-16">
+      <div className="mx-4 max-w-screen-xl sm:mx-10 md:mx-20 lg:mx-10">
+        <div className="pt-4 pb-2 mt-16">
           <nav className="mb-1 flex" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
               <li className="inline-flex items-center">
@@ -66,7 +66,7 @@ const Settings = () => {
             </ol>
           </nav>{' '}
         </div>
-        <hr className="mt-2 mb-4" />
+        <hr className="mt-2 mb-4 border-gray-400 dark:border-gray-400" />
         <p className="py-2 text-xl font-semibold">Email Address</p>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <p className="text-gray-600">
