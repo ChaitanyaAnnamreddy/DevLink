@@ -87,7 +87,7 @@ const Hero = () => {
         {/* ✅ Show Only the First User */}
         {currentUser ? (
           <div
-            className="card bg-base-100 shadow-xl lg:w-1/5 flex justify-center mx-4 md:mx-auto"
+            className="card bg-base-100 shadow-xl lg:w-1/5 flex justify-center mx-4 md:mx-auto mt-10 sm:mt-40"
             data-theme="synthwave"
             key={currentUser?._id}
           >
