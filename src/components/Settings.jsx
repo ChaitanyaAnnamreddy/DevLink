@@ -143,7 +143,7 @@ const Settings = () => {
           <p className="py-2 text-xl font-semibold">Email Address</p>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <p className="text-gray-600">
-              Your email address is <strong>{selector?.user.emailId}</strong>
+              Your email address is <strong>{selector?.user?.emailId}</strong>
             </p>
           </div>
           <hr className="mt-4 mb-4" />
