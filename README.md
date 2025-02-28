@@ -33,3 +33,48 @@
 - Send/Ignore the user card from the feed
 - Signup New User
 - E2E testing
+
+Also clone the backend code from - https://github.com/ChaitanyaAnnamreddy/devLink-backend
+
+# Production deployment manually (frontend deployment process)
+
+- create a AWS account - https://aws.amazon.com/ (it will ask for credit card details. in the final step select Basic support - Free)
+- Then go to aws console -> EC2 -> Launch Instance
+- we should create a new EC2 instance or virtual machine
+- give a name to your instance
+- select the OS - use any OS - i used ubuntu
+- scroll down -> select the type of instance - i used t2.micro
+- key pair - create a new key pair - name anything - download the public key
+- click on launch instance
+- wait for the instance to get ready
+- connect to your instance
+- click on SSH client
+- go to terminal or command prompt - go to the folder where the key is downloaded(ex: cd downloads in mycase)
+- give the command - chmod 400 <key-file-name>.pem (changing the permision of our secret key)
+- give the command - ssh -i <key-file-name>.pem ubuntu@<instance-public-ip> (connecting to our instance using the key)
+- once you are in your ubunto maching - install nodejs - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+- close the terminal and reopen, make sure you are in the folder where your key is present
+- Download and install Node.js:
+- nvm install 22(this version should match your local node version)
+- check
+  - node -v,
+  - npm -v
+- Then clone the frontend code - git clone https://github.com/ChaitanyaAnnamreddy/DevLink.git
+- similarly clone the backend code - git clone https://github.com/ChaitanyaAnnamreddy/devLink-backend.git
+- then run command ls - you should see two folders - DevLink and devLink-backend
+- in your local make sure your frontend code is build - npm run build
+- cd into DevLink
+  - npm install
+  - npm run build
+  - run command ls and you should see the file - dist
+  - run sudo apt update - this will update the package list
+  - run sudo apt install nginx - this will install nginx
+  - run sudo systemctl start nginx - this will start the nginx on to our system
+  - run sudo systemctl enable nginx - this will enable the nginx on to our system
+  - copy code from dist folder(build files) to /var/www/html - run sudo scp -r dist/\* /var/www/html
+  - run cd /var/www/html - all the built files are now present in the html folder
+- ![alt text](image.png) - now go to aws instance and click on security group
+- ![alt text](image-1.png) - click edit inbound rules - then click add rule
+- ![alt text](image-2.png) - in port range give 80 and source as 0.0.0.0/0 - click save rules
+- ![alt text](image-3.png) - you should be able to see port range 80
+- ![alt text](image-4.png) - copy the public ip and paste it in the browser - you should see the frontend running
