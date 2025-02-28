@@ -71,7 +71,7 @@ Also clone the backend code from - https://github.com/ChaitanyaAnnamreddy/devLin
   - run sudo apt install nginx - this will install nginx
   - run sudo systemctl start nginx - this will start the nginx on to our system
   - run sudo systemctl enable nginx - this will enable the nginx on to our system
-  - copy code from dist folder(build files) to /var/www/html - run sudo scp -r dist/* /var/www/html
+  - copy code from dist folder(build files) to /var/www/html - run sudo scp -r dist/\* /var/www/html
   - run cd /var/www/html - all the built files are now present in the html folder
 - ![alt text](image.png) - now go to aws instance and click on security group
 - ![alt text](image-1.png) - click edit inbound rules - then click add rule
@@ -85,7 +85,7 @@ Also clone the backend code from - https://github.com/ChaitanyaAnnamreddy/devLin
 - npm install
 - ![alt text](image-5.png) - in EC2 instance click on security group - inbound rules - add rule - port range 7777 and source as 0.0.0.0/0 - click save rules( we are allowing port 7777 and whitelist our ip)
 - npm install pm2 -g(process manager to keep application running 24/7)
-- to check logs - pm2 logs
+- pm2 logs - to check errors
 - pm2 list - list all the applications
 - pm2 flush <name of the application> - in my case its pm2 npm
 - custom name of the application - run pm2 start npm --name "devlink" -- start(in the background it will run npm start)
