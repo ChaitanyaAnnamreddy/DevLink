@@ -51,7 +51,7 @@ Also clone the backend code from - https://github.com/ChaitanyaAnnamreddy/devLin
 - click on SSH client
 - go to terminal or command prompt - go to the folder where the key is downloaded(ex: cd downloads in mycase)
 - give the command - chmod 400 <key-file-name>.pem (changing the permision of our secret key)
-- give the command - ssh -i <key-file-name>.pem ubuntu@<instance-public-ip> (connecting to our instance using the key)
+- give the command - ssh -i <key-file-name>.pem ubuntu@<instance-public-ip> (connecting to our instance using the key) - logging into our machine
 - once you are in your ubunto maching - install nodejs - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 - close the terminal and reopen, make sure you are in the folder where your key is present
 - Download and install Node.js:
@@ -78,3 +78,56 @@ Also clone the backend code from - https://github.com/ChaitanyaAnnamreddy/devLin
 - ![alt text](image-2.png) - in port range give 80 and source as 0.0.0.0/0 - click save rules
 - ![alt text](image-3.png) - you should be able to see port range 80
 - ![alt text](image-4.png) - copy the public ip and paste it in the browser - you should see the frontend running
+
+# Production deployment manually (backend deployment process)
+
+- cd devLink-backend(make sure you have latest changes. if not run git pull)
+- npm install
+- ![alt text](image-5.png) - in EC2 instance click on security group - inbound rules - add rule - port range 7777 and source as 0.0.0.0/0 - click save rules( we are allowing port 7777 and whitelist our ip)
+- npm install pm2 -g(process manager to keep application running 24/7)
+- to check logs - pm2 logs
+- pm2 list - list all the applications
+- pm2 flush <name of the application> - in my case its pm2 npm
+- custom name of the application - run pm2 start npm --name "devlink" -- start(in the background it will run npm start)
+- pm2 stop <name of the application> - stop the application
+- pm2 delete <name of the application> - delete the application
+- copy the public ip and paste it in the browser - you should see the backend running - ex: http://3.110.27.114:7777/feed( i am running feed api)
+
+# merging both the frontend and backend so the application will run
+
+- frontend ip - http://3.110.27.114
+- backend ip - http://3.110.27.114:7777 but we don't want backend to run on :7777 so will use npinx to propy path it to /api
+- Step 1: Install NGINX (if not installed)
+  - Run the following command to install NGINX on your Ubuntu AWS machine:
+    - sudo apt update && sudo apt install nginx -y
+- Step 2: Configure NGINX
+
+  - Open the NGINX configuration file for your site:
+    - sudo nano /etc/nginx/sites-available/default
+  - Replace the existing server block with the following:
+
+    server {
+    listen 80;
+    server_name 3.110.27.114;
+
+    location /api/ {
+    proxy_pass http://localhost:7777/; # Proxy to your Node.js app
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    }
+
+- Step 3: Enable Configuration & Restart NGINX
+  Save the file (CTRL + X, then Y, then Enter)
+
+  - sudo nginx -t # Test the configuration
+    If there are no errors, restart NGINX:
+  - sudo systemctl restart nginx
+
+- finally modify the frontend BASE_URL to /api
