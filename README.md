@@ -52,7 +52,7 @@ Also clone the backend code from - https://github.com/ChaitanyaAnnamreddy/devLin
 - go to terminal or command prompt - go to the folder where the key is downloaded(ex: cd downloads in mycase)
 - give the command - chmod 400 <key-file-name>.pem (changing the permision of our secret key)
 - give the command - ssh -i <key-file-name>.pem ubuntu@<instance-public-ip> (connecting to our instance using the key) - logging into our machine
-- once you are in your ubunto maching - install nodejs - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+- once you are in your ubunto maching - install nodejs ----> curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 - close the terminal and reopen, make sure you are in the folder where your key is present
 - Download and install Node.js:
 - nvm install 22(this version should match your local node version)
@@ -71,7 +71,7 @@ Also clone the backend code from - https://github.com/ChaitanyaAnnamreddy/devLin
   - run sudo apt install nginx - this will install nginx
   - run sudo systemctl start nginx - this will start the nginx on to our system
   - run sudo systemctl enable nginx - this will enable the nginx on to our system
-  - copy code from dist folder(build files) to /var/www/html - run sudo scp -r dist/\* /var/www/html
+  - copy code from dist folder(build files) to /var/www/html - run sudo scp -r dist/* /var/www/html
   - run cd /var/www/html - all the built files are now present in the html folder
 - ![alt text](image.png) - now go to aws instance and click on security group
 - ![alt text](image-1.png) - click edit inbound rules - then click add rule
