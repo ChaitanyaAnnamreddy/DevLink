@@ -47,7 +47,6 @@ const Settings = () => {
         withCredentials: true,
         headers: { 'Content-Type': 'application/json' },
       })
-      console.log('res', res.data)
       setSuccess(res.data.message)
       setError('')
       setCurrentPassword('')
@@ -61,8 +60,6 @@ const Settings = () => {
         setNotification(null)
       }, 1000)
     } catch (error) {
-      console.error('Error updating password:', error)
-
       setError(error.response?.data?.error || 'Current password is incorrect')
       setSuccess('')
       setNotification(null)

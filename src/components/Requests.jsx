@@ -24,7 +24,7 @@ const Requests = () => {
           withCredentials: true,
         }
       )
-      console.log(res.data)
+
       dispatch(removeRequests(_id))
       setNotification({
         type: 'success',

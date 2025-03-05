@@ -26,8 +26,7 @@ const Hero = () => {
         {},
         { withCredentials: true }
       )
-      console.log(res.data)
-      // Remove only the first feed user
+
       dispatch(removeFeed(userId))
 
       setNotification({
